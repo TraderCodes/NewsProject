@@ -40,13 +40,20 @@ const AppProvider = ({ children }) => {
          console.log(error);
       }
    };
+   //  remove story
+   const removeStory = (id) => {
+      // setup dispatch and pass in the id from Stories which is the opjectID
+      dispatch({ type: REMOVE_STORY, payload: id });
+   };
    // when app load useEffect
    useEffect(() => {
       fetchStories(`${API_ENDPOINT}query=${state.query}&page=${state.page}`);
    }, []);
 
    return (
-      <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>
+      <AppContext.Provider value={{ ...state, removeStory }}>
+         {children}
+      </AppContext.Provider>
    );
 };
 // make sure use
