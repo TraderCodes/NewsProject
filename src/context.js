@@ -25,7 +25,7 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
    // set reducer
    const [state, dispatch] = useReducer(reducer, initialState);
-   // fetch
+   //TODO fetch
    const fetchStories = async (url) => {
       dispatch({ type: SET_LOADING });
       try {
@@ -40,21 +40,36 @@ const AppProvider = ({ children }) => {
          console.log(error);
       }
    };
-   //  remove story
+   //todo 🟢 remove story
+
    const removeStory = (id) => {
       // setup dispatch and pass in the id from Stories which is the opjectID
       dispatch({ type: REMOVE_STORY, payload: id });
    };
+
+   // TODO 🟢Search changes
    const handleSearch = (query) => {
       dispatch({ type: HANDLE_SEARCH, payload: query });
    };
-   // when app load useEffect
-   useEffect(() => {
-      fetchStories(`${API_ENDPOINT}query=${state.query}&page=${state.page}`);
-      // everytime query value changes fetchStories
-   }, [state.query]);
+   //TODO 🟢handlePage
+   const handlePage = (page) => {
+      dispatch({ type: HANDLE_PAGE, payload: page });
+   };
+   //when app load useEffect
+   useEffect(
+      () => {
+         fetchStories(`${API_ENDPOINT}query=${state.query}&page=${state.page}`);
+         // !everytime query value changes fetchStories
+         //  !Everytime page value changes fetchStories
+         //  👇  👇  👇  👇  👇  👇  👇  👇  👇  👇
+      },
+      [state.query],
+      [state.page]
+   );
    return (
-      <AppContext.Provider value={{ ...state, removeStory, handleSearch }}>
+      <AppContext.Provider
+         value={{ ...state, removeStory, handleSearch, handlePage }}
+      >
          {children}
       </AppContext.Provider>
    );
