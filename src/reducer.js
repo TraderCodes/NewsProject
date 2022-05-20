@@ -18,9 +18,14 @@ const reducer = (state, action) => {
             hits: action.payload.hits,
             nbPages: action.payload.nbPages,
          };
-        //  remove story by filtering out id
+      //  remove story by filtering out id
       case REMOVE_STORY:
-        return { ...state, hits:state.hits.filter(h => h.objectID  !== action.payload)}
+         return {
+            ...state,
+            hits: state.hits.filter((h) => h.objectID !== action.payload),
+         };
+      case HANDLE_SEARCH:
+         return { ...state, query: action.payload, page: 0 };
       default:
          throw new Error(`${action.type}`);
    }

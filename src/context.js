@@ -45,13 +45,16 @@ const AppProvider = ({ children }) => {
       // setup dispatch and pass in the id from Stories which is the opjectID
       dispatch({ type: REMOVE_STORY, payload: id });
    };
+   const handleSearch = (query) => {
+      dispatch({ type: HANDLE_SEARCH, payload: query });
+   };
    // when app load useEffect
    useEffect(() => {
       fetchStories(`${API_ENDPOINT}query=${state.query}&page=${state.page}`);
-   }, []);
-
+      // everytime query value changes fetchStories
+   }, [state.query]);
    return (
-      <AppContext.Provider value={{ ...state, removeStory }}>
+      <AppContext.Provider value={{ ...state, removeStory, handleSearch }}>
          {children}
       </AppContext.Provider>
    );
